@@ -1,4 +1,5 @@
 import pytest
+from flask_api import status
 
 from app.main.model.forecast import Forecast
 from app.main.service.forecast_service import ForecastService
@@ -82,11 +83,16 @@ def test_forecast_service_save_method_without_repeated_forecast(db_session, app)
 
     # WHEN
     forecast_service = ForecastService(data)
-    forecast_service.save()
+    response, status_code = forecast_service.save()
 
     # THEN
     forecasts = Forecast.query.filter_by(id=data['id'])
     check_forecast_data(data, forecasts)
+    assert status_code == status.HTTP_201_CREATED
+    assert response == {
+        'status': 'success',
+        'message': 'Successfully registered.'
+    }
 
 
 def test_forecast_service_save_method_with_repeated_forecast(db_session, app):
@@ -102,8 +108,13 @@ def test_forecast_service_save_method_with_repeated_forecast(db_session, app):
         'rain_probability': 123.123,
         'rain_precipitation': 34231.1
     })
-    forecast_service.save()
+    response, status_code = forecast_service.save()
 
     # THEN
     forecasts = Forecast.query.filter_by(id=data['id'])
     check_forecast_data(data, forecasts)
+    assert status_code == status.HTTP_201_CREATED
+    assert response == {
+        'status': 'success',
+        'message': 'Successfully registered.'
+    }

@@ -4,6 +4,7 @@ from sqlalchemy import inspect
 
 from app.main import db
 from app.main.model.forecast import Forecast
+from flask_api import status
 
 
 class ForecastService:
@@ -50,7 +51,7 @@ class ForecastService:
         else:
             self.update(forecast)
 
-        return self.response_object, 201
+        return self.response_object, status.HTTP_201_CREATED
 
     @staticmethod
     def get_forecast_fields():
