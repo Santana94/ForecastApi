@@ -112,7 +112,7 @@ def test_forecast_service_save_method_with_repeated_forecast(db_session, app):
 
     # THEN
     forecasts = Forecast.query.filter_by(id=data['id'])
-    check_forecast_data(data, forecasts)
+    check_forecast_data(forecast_service.data, forecasts)
     assert status_code == status.HTTP_201_CREATED
     assert response == {
         'status': 'success',
