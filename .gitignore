@@ -31,3 +31,5 @@ venv/
 /.vscode/launch.json
 /.vscode/settings.json
 .DS_Store
+flask_boilerplate_main.db
+flask_boilerplate_test.db

@@ -1,5 +1,7 @@
 import datetime
 
+from sqlalchemy import inspect
+
 from app.main import db
 from app.main.model.forecast import Forecast
 
@@ -34,8 +36,10 @@ class ForecastService:
 
     def update(self, forecast):
         forecast_fields = self.get_forecast_fields()
+
         for field in forecast_fields:
             setattr(forecast, field, self.data[field])
+
         db.session.commit()
 
     def save(self):
@@ -50,6 +54,11 @@ class ForecastService:
 
     @staticmethod
     def get_forecast_fields():
-        forecast_fields = list(Forecast.__dict__.keys())
-        id_index = forecast_fields.index("id")
-        return forecast_fields[id_index:]
+        mapper = inspect(Forecast)
+        forecast_fields = list(i.key for i in mapper.attrs)
+
+        undesired_fields = ['date', 'id']
+        for field in undesired_fields:
+            del forecast_fields[forecast_fields.index(field)]
+
+        return forecast_fields
