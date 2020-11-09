@@ -13,7 +13,9 @@ def get_data():
         'state': 'Test State',
         'country': 'Test Country',
         'rain_probability': 1.23,
-        'rain_precipitation': 234.2
+        'rain_precipitation': 234.2,
+        'max_temp': 123,
+        'min_temp': 12
     }
 
 
@@ -97,7 +99,7 @@ def test_forecast_service_save_method_without_repeated_forecast(db_session, app)
 
 def test_forecast_service_save_method_with_repeated_forecast(db_session, app):
     # GIVEN
-    data = get_data()
+    data = get_data() 
 
     # WHEN
     forecast_service = ForecastService(data)

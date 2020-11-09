@@ -22,6 +22,8 @@ class Forecast(Base):
     date = Column(DateTime, nullable=True)
     rain_probability = Column(Float, nullable=True)
     rain_precipitation = Column(Float, nullable=True)
+    max_temp = Column(Float, nullable=True)
+    min_temp = Column(Float, nullable=True)
 
     def __repr__(self):
         return f"<Forecast '{self.city}' - '{self.id}' >"

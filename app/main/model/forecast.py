@@ -13,6 +13,8 @@ class Forecast(db.Model):
     date = db.Column(db.DateTime, nullable=True)
     rain_probability = db.Column(db.Float, nullable=True)
     rain_precipitation = db.Column(db.Float, nullable=True)
+    max_temp = db.Column(db.Float, nullable=True)
+    min_temp = db.Column(db.Float, nullable=True)
 
     def __repr__(self):
         return f"<Forecast '{self.city}' - '{self.id}' >"

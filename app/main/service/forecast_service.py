@@ -6,6 +6,43 @@ from app.main import db
 from app.main.model.forecast import Forecast
 from flask_api import status
 
+from app.main.service.external_apis import ApiAdvisor
+
+
+class ApiAdvisorTarget:
+
+    def request(self, city_id) -> dict:
+        return ApiAdvisor(city_id).get_city_data()
+
+
+class ApiAdvisorAdaptee:
+
+    def specific_request(self, city: dict) -> dict:
+        city_data = city.get('data', {})
+        rain = city_data.get('rain', {})
+        temperature = city_data.get('temperature', {})
+        return {
+            'id': city.get('id'),
+            'city': city.get('name'),
+            'state': city.get('state'),
+            'country': city.get('country'),
+            'date': city_data.get('date'),
+            'rain_probability': rain.get('probability'),
+            'rain_precipitation': rain.get('precipitation'),
+            'max_temp': temperature.get('max'),
+            'min_temp': temperature.get('min')
+        }
+
+
+class ApiAdvisorAdapter(ApiAdvisorTarget):
+
+    def __init__(self, adaptee: ApiAdvisorAdaptee) -> None:
+        self.adaptee = adaptee
+
+    def request(self, city_id) -> dict:
+        city = super().request(city_id)
+        return self.adaptee.specific_request(city)
+
 
 class ForecastService:
 

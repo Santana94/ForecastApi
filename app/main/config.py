@@ -39,4 +39,7 @@ config_by_name = dict(
     prod=ProductionConfig
 )
 
+API_ADVISOR_URL = os.getenv('API_ADVISOR_URL', 'http://my_test_site.com/forecast/')
+API_ADVISOR_TOKEN = os.getenv('API_ADVISOR_TOKEN', 'custom-token')
+
 key = Config.SECRET_KEY
