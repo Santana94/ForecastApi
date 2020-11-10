@@ -5,7 +5,7 @@ from app.main.model.forecast import Forecast
 def test_forecast_model_repr_method(db_session, app):
     # GIVEN
     data = {
-        'id': 1,
+        'id': 2,
         'city': 'Test City',
         'state': 'Test State',
         'country': 'Test Country',

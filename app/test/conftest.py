@@ -29,6 +29,20 @@ def app():
 
 
 @pytest.fixture
+def forecast_data():
+    return {
+        'id': 1000,
+        'city': 'Test City',
+        'state': 'Test State',
+        'country': 'Test Country',
+        'rain_probability': 1.23,
+        'rain_precipitation': 234.2,
+        'max_temp': 123,
+        'min_temp': 12
+    }
+
+
+@pytest.fixture
 def client(app):
     with app.test_client() as client:
         yield client

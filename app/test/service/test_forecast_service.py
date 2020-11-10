@@ -6,19 +6,6 @@ from app.main.service.forecast_service import ForecastService
 from app.test.factories import session
 
 
-def get_data():
-    return {
-        'id': 1,
-        'city': 'Test City',
-        'state': 'Test State',
-        'country': 'Test Country',
-        'rain_probability': 1.23,
-        'rain_precipitation': 234.2,
-        'max_temp': 123,
-        'min_temp': 12
-    }
-
-
 def check_forecast_data(data, forecasts):
     assert forecasts.count() == 1
     forecast = forecasts.first()
@@ -52,9 +39,9 @@ def test_forecast_service__init__ok():
     }
 
 
-def test_forecast_service_create_method(db_session, app):
+def test_forecast_service_create_method(db_session, app, forecast_data):
     # GIVEN
-    data = get_data()
+    data = forecast_data
 
     # WHEN
     forecast_service = ForecastService(data)
@@ -65,9 +52,9 @@ def test_forecast_service_create_method(db_session, app):
     check_forecast_data(data, forecasts)
 
 
-def test_forecast_service_update_method(db_session, app, forecast):
+def test_forecast_service_update_method(db_session, app, forecast, forecast_data):
     # GIVEN
-    data = get_data()
+    data = forecast_data
     data['id'] = forecast.id
 
     # WHEN
@@ -79,9 +66,9 @@ def test_forecast_service_update_method(db_session, app, forecast):
     check_forecast_data(data, forecasts)
 
 
-def test_forecast_service_save_method_without_repeated_forecast(db_session, app):
+def test_forecast_service_save_method_without_repeated_forecast(db_session, app, forecast_data):
     # GIVEN
-    data = get_data()
+    data = forecast_data
 
     # WHEN
     forecast_service = ForecastService(data)
@@ -97,9 +84,9 @@ def test_forecast_service_save_method_without_repeated_forecast(db_session, app)
     }
 
 
-def test_forecast_service_save_method_with_repeated_forecast(db_session, app):
+def test_forecast_service_save_method_with_repeated_forecast(db_session, app, forecast_data):
     # GIVEN
-    data = get_data() 
+    data = forecast_data
 
     # WHEN
     forecast_service = ForecastService(data)

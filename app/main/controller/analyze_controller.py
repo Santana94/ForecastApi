@@ -1,6 +1,7 @@
 from flask_api import status
 from flask_restplus import Resource, reqparse, inputs
 
+from app.main.model.forecast import Forecast
 from app.main.util.dto import AnalyzeDto
 
 api = AnalyzeDto.api
@@ -16,12 +17,18 @@ parser.add_argument('data_final', type=inputs.date,
 
 @api.route('')
 class Analyze(Resource):
+
     @api.doc('get a forecast analysis')
     @api.expect(parser)
     def get(self):
         args = parser.parse_args()
-        queryset = self.get_queryset()
+        filtered_query = self.filter_queryset(args)
+
+        if not filtered_query.count():
+            return {'message': 'Not data found!'}, status.HTTP_404_NOT_FOUND
+
         return {}, status.HTTP_200_OK
 
-    def get_queryset(self):
-        return
+    @staticmethod
+    def filter_queryset(args):
+        return Forecast.query.filter(Forecast.date >= args['data_inicial']).filter(Forecast.date <= args['data_final'])
