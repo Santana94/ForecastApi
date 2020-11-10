@@ -14,3 +14,7 @@ class ForecastDto:
         'max_temp': fields.DateTime(description='max. temperature'),
         'min_temp': fields.DateTime(description='min. temperature'),
     })
+
+
+class AnalyzeDto:
+    api = Namespace('analyze', description='forecast analysis')

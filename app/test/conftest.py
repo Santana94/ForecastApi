@@ -1,7 +1,4 @@
-import os
-
 import pytest
-import tempfile
 
 from app import blueprint
 from app.main import create_app, db
