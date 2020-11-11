@@ -3,7 +3,7 @@ from flask_api import status
 
 from app.main.model.forecast import Forecast
 from app.main.service.forecast_service import ForecastService
-from app.test.factories import session
+from app.test.factories import session, ForecastFactory
 
 
 def check_forecast_data(data, forecasts):
@@ -52,9 +52,10 @@ def test_forecast_service_create_method(db_session, app, forecast_data):
     check_forecast_data(data, forecasts)
 
 
-def test_forecast_service_update_method(db_session, app, forecast, forecast_data):
+def test_forecast_service_update_method(db_session, app, forecast_data):
     # GIVEN
     data = forecast_data
+    forecast = ForecastFactory()
     data['id'] = forecast.id
 
     # WHEN
